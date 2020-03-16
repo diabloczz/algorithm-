@@ -18,21 +18,15 @@ package 算法之数组;
  */
 public class SearchInsert {
 	  public static int searchInsert(int[] nums, int target) {
-		  int a=0;
-	         for(int i=0;i<nums.length;i++) {
-	        	 if(nums[i]==target) {
-	        		 a= i;
-		        	 break;
-	        	 } 
-	        	 if(i<nums.length-1 && nums[i+1]!=target) {
-	        		 a=i+1;
-	        	 }
-	        		
-	        	 if(i=nums.length-1 && nums[i+1]!=target) {
-	        		 a=i+1;
-	        	 }
-	        	
-	        		
-	         }
+		  for(int i=0;i<nums.length;i++) {
+			  if(target<=nums[i])
+				  return i;
+		  }
+		  return nums.length;
 	    }
+	  
+	  public static void main(String[] args) {
+		int [] arr=new int[] {1,3,5,6};
+		System.out.println(searchInsert(arr,5));
+	}
 }
