@@ -3,6 +3,7 @@ package 二叉树;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * 给定一个二叉树，返回它的 后序 遍历。
@@ -48,26 +49,52 @@ public class 二叉树的后序遍历145 {
 	}
 	 
 	 
-	 public List<Integer> postorderTraversal2(TreeNode root) {
-		    LinkedList<TreeNode> stack = new LinkedList<>();
+	 /**
+	  * 首先将根节点入栈，压入顺序先压根节点，再压根节点的right，再压left
+	  * 栈顶元素我们先判断是否符合弹出条件，如果符合就弹出，不符合就继续上一步操作
+	  * 判断弹出条件条件：当前栈顶节点是叶子节点，那就弹出并访问；或者上一个访问的节点是栈顶节点的子节点（因为已经入栈过的元素不许重复入栈），弹出访问
+	  * @param root
+	  * @return
+	  */
+	 public static List<Integer> postorderTraversal2(TreeNode root) {
+		     Stack<TreeNode> stack = new Stack<>();
 		    LinkedList<Integer> output = new LinkedList<>();
 		    if (root == null) {
 		      return output;
 		    }
-
-		    stack.add(root);
+		    TreeNode lastNode=root;//记录上一次访问的节点
+		    stack.push(root);
 		    while (!stack.isEmpty()) {
-		      TreeNode node = stack.pollLast();
-		      output.addFirst(node.val);
-		      if (node.left != null) {
-		        stack.add(node.left);
+		      TreeNode node=stack.peek();
+		      System.out.println(isChild(lastNode,node));
+		      System.out.println(isLeaf(node));
+		      if(isChild(lastNode,node) || isLeaf(node)) {
+		    	  lastNode=stack.pop();
+		    	  output.add(lastNode.val);
+		      }else {
+		    	  if(node.right!=null)
+		    	    stack.push(node.right);
+		    	  if(node.left!=null)
+		    	  stack.push(node.left);
 		      }
-		      if (node.right != null) {
-		        stack.add(node.right);
-		      }
-		    }
-		    return output;
 		  }
-
-	
+		    return  output;
+    }
+	 
+	 public static boolean isLeaf(TreeNode node) {
+			return node.left == null && node.right == null;
+		}
+	 
+	 public static boolean isChild(TreeNode child,TreeNode father) {
+			return father.left == child || father.right == child;
+		}
+	 
+	 public static void main(String[] args) {
+		TreeNode first=new TreeNode(1);
+		first.left=null;
+		TreeNode second=new TreeNode(2);
+		first.right=second;
+		second.left=new TreeNode(3);
+		System.out.println(postorderTraversal2(first));
+	}
 }

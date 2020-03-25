@@ -66,6 +66,29 @@ public class 二叉树的前序遍历144 {
         }
         return list;
 }
+	 /**
+	   * 迭代法的另一种写法
+	   * @param root
+	   * @return
+	   */
+	public List<Integer> preorderTraversal3(TreeNode root) {
+        List<Integer> list=new ArrayList<>();
+        Stack<TreeNode> stack=new Stack<>();
+        if(root==null) return list;
+        stack.push(root);
+        while(!stack.isEmpty()) {
+        	TreeNode node=stack.pop();
+        	  list.add(node.val);
+        	  if(node.right!=null) {
+        		  stack.push(node.right);  
+        	  } 
+        	  if(node.left!=null) {
+        		  stack.push(node.left);  
+        	  }      
+        	
+        }
+        return list;
+}
 	
 	
 	public static void main(String[] args) {
